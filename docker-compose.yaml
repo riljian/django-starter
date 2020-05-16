@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  mysql-server:
+    image: mysql:5.7
+    container_name: django-starter-mysql-server
+    command: ["--sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"]
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql-local
+  mysql-admin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: django-starter-mysql-admin
+    ports:
+      - "8083:80"
+    restart: always
+    depends_on:
+      - mysql-server
+    environment:
+      PMA_HOST: mysql-server
+      PMA_PORT: 3306
+  python-context:
+    image: python:3.7
+    container_name: django-starter
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+    working_dir: /code
+    stdin_open: true
+    tty: true
