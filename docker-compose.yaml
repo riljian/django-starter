@@ -7,7 +7,7 @@ services:
     command: ["--sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"]
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: mysql-local
+      MYSQL_ROOT_PASSWORD: root
   mysql-admin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: django-starter-mysql-admin
