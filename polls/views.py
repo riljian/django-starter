@@ -12,6 +12,11 @@ from polls.models import Poll, PollPermission
 from polls.serializers import PollSerializer
 
 
+class TrustedServicePermission(BasePermission):
+    def has_permission(self, request, view):
+        return request.get_host() == 'localhost:8000'
+
+
 class PollSummaryPermission(BasePermission):
     def has_permission(self, request, view):
         permission = f'{PollsConfig.name}.{PollPermission.AGGREGATE_SUMMARY}'
@@ -32,7 +37,7 @@ class PollListPermission(DjangoModelPermissions):
 
 class PollList(APIView):
     renderer_classes = [JSONRenderer]
-    permission_classes = [PollListPermission]
+    permission_classes = [TrustedServicePermission | PollListPermission, ]
     queryset = Poll.objects.all()
 
     def get(self, request):
